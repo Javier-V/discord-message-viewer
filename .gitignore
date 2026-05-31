@@ -1,4 +1,30 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
 
+# Environment variables
 .env
-node_modules/
+.env.local
+.env.*.local
+
+# Build artifacts
+/dist
+/build
+/out
+
+# System
 .DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# OS
+*~

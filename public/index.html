@@ -16,7 +16,7 @@
                 </div>
                 <div>
                     <p class="eyebrow">Discord archive</p>
-                    <h1>Message Viewer</h1>
+                    <h1>Tsukamonda</h1>
                 </div>
             </div>
 
@@ -33,65 +33,145 @@
             </div>
         </header>
 
-        <main class="workspace">
-            <section class="toolbar" aria-label="Controles de mensajes">
-                <div class="search-field">
-                    <span class="search-icon">/</span>
-                    <input type="text" id="searchInput" placeholder="Buscar autor o contenido">
-                </div>
+        <div class="app-layout">
+            <nav class="side-nav" aria-label="Secciones">
+                <a class="nav-link active" href="#tsukamonda" data-view-link="tsukamonda">Tsukamonda</a>
+                <a class="nav-link" href="#dashboard" data-view-link="dashboard">Dashboard</a>
+            </nav>
 
-                <label class="select-field">
-                    <span>Orden</span>
-                    <select id="sortBy">
-                        <option value="date">Fecha reciente</option>
-                        <option value="author">Nombre</option>
-                        <option value="content">Contenido</option>
-                    </select>
-                </label>
+            <main class="workspace">
+                <section id="tsukamondaView" class="app-view active">
+                    <section class="toolbar" aria-label="Controles de mensajes">
+                        <div class="search-field">
+                            <span class="search-icon">/</span>
+                            <input type="text" id="searchInput" placeholder="Buscar autor o contenido">
+                        </div>
 
-                <label class="select-field">
-                    <span>Resultados</span>
-                    <select id="pageSize">
-                        <option value="100" selected>100</option>
-                        <option value="200">200</option>
-                        <option value="500">500</option>
-                        <option value="all">Todos</option>
-                    </select>
-                </label>
-            </section>
+                        <label class="select-field">
+                            <span>Orden</span>
+                            <select id="sortBy">
+                                <option value="date">Fecha reciente</option>
+                                <option value="author">Nombre</option>
+                                <option value="content">Contenido</option>
+                            </select>
+                        </label>
 
-            <section class="status-grid" aria-label="Estado">
-                <div class="metric">
-                    <span class="metric-label">Canal</span>
-                    <strong id="channelName">Conectando</strong>
-                </div>
-                <div class="metric">
-                    <span class="metric-label">Mensajes</span>
-                    <strong id="messageCount">0</strong>
-                </div>
-                <div class="metric wide">
-                    <span class="metric-label">Estado</span>
-                    <strong id="statusBar">Conectando a Discord...</strong>
-                </div>
-            </section>
+                        <label class="select-field">
+                            <span>Resultados</span>
+                            <select id="pageSize">
+                                <option value="100" selected>100</option>
+                                <option value="200">200</option>
+                                <option value="500">500</option>
+                                <option value="all">Todos</option>
+                            </select>
+                        </label>
+                    </section>
 
-            <section class="messages-section" aria-label="Mensajes">
-                <div class="section-header">
-                    <h2>Mensajes</h2>
-                    <div class="pagination-controls" aria-label="Paginacion">
-                        <button id="previousPage" class="page-button" type="button">Anterior</button>
-                        <span id="visibleCount">0 visibles</span>
-                        <button id="nextPage" class="page-button" type="button">Siguiente</button>
-                    </div>
-                </div>
+                    <section class="status-grid" aria-label="Estado">
+                        <div class="metric">
+                            <span class="metric-label">Canal</span>
+                            <strong id="channelName">Conectando</strong>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Mensajes</span>
+                            <strong id="messageCount">0</strong>
+                        </div>
+                        <div class="metric wide">
+                            <span class="metric-label">Estado</span>
+                            <strong id="statusBar">Conectando a Discord...</strong>
+                        </div>
+                    </section>
 
-                <div id="messagesContainer" class="messages-grid">
-                    <div class="loading">Cargando mensajes...</div>
-                </div>
-            </section>
-        </main>
+                    <section class="messages-section" aria-label="Mensajes">
+                        <div class="section-header">
+                            <h2>Mensajes</h2>
+                            <div class="pagination-controls" aria-label="Paginacion">
+                                <button id="previousPage" class="page-button" type="button">Anterior</button>
+                                <span id="visibleCount">0 visibles</span>
+                                <button id="nextPage" class="page-button" type="button">Siguiente</button>
+                            </div>
+                        </div>
+
+                        <div id="messagesContainer" class="messages-grid">
+                            <div class="loading">Cargando mensajes...</div>
+                        </div>
+                    </section>
+                </section>
+
+                <section id="dashboardView" class="app-view">
+                    <section class="toolbar dashboard-toolbar" aria-label="Filtros del dashboard">
+                        <label class="select-field">
+                            <span>Rango</span>
+                            <select id="dashboardRange">
+                                <option value="24h">24h</option>
+                                <option value="7d" selected>7 dias</option>
+                                <option value="30d">30 dias</option>
+                                <option value="all">Todo</option>
+                            </select>
+                        </label>
+
+                        <label class="select-field">
+                            <span>Canal</span>
+                            <select id="dashboardChannel">
+                                <option value="">Todos</option>
+                            </select>
+                        </label>
+
+                        <label class="select-field">
+                            <span>Usuario</span>
+                            <select id="dashboardUser">
+                                <option value="">Todos</option>
+                            </select>
+                        </label>
+                    </section>
+
+                    <section class="dashboard-tabs" aria-label="Pestanas del dashboard">
+                        <button class="tab-button active" type="button" data-dashboard-tab="summary">Resumen</button>
+                        <button class="tab-button" type="button" data-dashboard-tab="text">Texto</button>
+                        <button class="tab-button" type="button" data-dashboard-tab="voice">Voz</button>
+                    </section>
+
+                    <section id="dashboardWarnings" class="dashboard-warnings" hidden></section>
+
+                    <section class="dashboard-kpis" aria-label="Metricas del dashboard">
+                        <div class="metric"><span class="metric-label">Mensajes</span><strong id="kpiTotalMessages">0</strong></div>
+                        <div class="metric"><span class="metric-label">Usuarios texto</span><strong id="kpiTextUsers">0</strong></div>
+                        <div class="metric"><span class="metric-label">Canal texto</span><strong id="kpiTopTextChannel">Sin datos</strong></div>
+                        <div class="metric"><span class="metric-label">Voz total</span><strong id="kpiVoiceTime">0m</strong></div>
+                        <div class="metric"><span class="metric-label">Usuarios voz</span><strong id="kpiVoiceUsers">0</strong></div>
+                    </section>
+
+                    <section class="dashboard-panel" data-dashboard-panel="summary">
+                        <div class="section-header"><h2>Resumen</h2><span id="dashboardGeneratedAt">Pendiente</span></div>
+                        <canvas id="summaryChart" height="110"></canvas>
+                        <div id="combinedUsers" class="rank-list"></div>
+                    </section>
+
+                    <section class="dashboard-panel" data-dashboard-panel="text" hidden>
+                        <div class="section-header"><h2>Texto</h2><span>Mensajes y palabras frecuentes</span></div>
+                        <canvas id="textChart" height="110"></canvas>
+                        <div class="dashboard-columns">
+                            <div id="textUsers" class="rank-list"></div>
+                            <div id="textChannels" class="rank-list"></div>
+                            <div id="frequentWords" class="rank-list"></div>
+                        </div>
+                    </section>
+
+                    <section class="dashboard-panel" data-dashboard-panel="voice" hidden>
+                        <div class="section-header"><h2>Voz</h2><span>Sesiones desde el tracking local</span></div>
+                        <canvas id="voiceChart" height="110"></canvas>
+                        <div class="dashboard-columns">
+                            <div id="voiceUsers" class="rank-list"></div>
+                            <div id="voiceChannels" class="rank-list"></div>
+                            <div id="recentVoiceSessions" class="rank-list"></div>
+                        </div>
+                    </section>
+                </section>
+            </main>
+        </div>
     </div>
     
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="script.js"></script>
 </body>

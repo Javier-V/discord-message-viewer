@@ -236,11 +236,59 @@ body[data-theme="otaku"] .theme-toggle {
 .workspace {
     display: grid;
     gap: 16px;
+    min-width: 0;
+}
+
+.app-layout {
+    display: grid;
+    grid-template-columns: 210px minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
+}
+
+.side-nav {
+    position: sticky;
+    top: 18px;
+    display: grid;
+    gap: 8px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: rgba(23, 30, 42, 0.9);
+    padding: 10px;
+    box-shadow: var(--shadow);
+}
+
+.nav-link {
+    display: block;
+    border-radius: var(--radius);
+    padding: 11px 12px;
+    color: var(--muted);
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.nav-link.active,
+.nav-link:hover {
+    background: var(--accent-soft);
+    color: var(--text);
+}
+
+.app-view {
+    display: none;
+    gap: 16px;
+}
+
+.app-view.active {
+    display: grid;
 }
 
 .toolbar,
 .status-grid,
-.messages-section {
+.messages-section,
+.dashboard-tabs,
+.dashboard-panel,
+.dashboard-kpis,
+.dashboard-warnings {
     border: 1px solid var(--border);
     border-radius: var(--radius);
     background: rgba(23, 30, 42, 0.9);
@@ -249,7 +297,12 @@ body[data-theme="otaku"] .theme-toggle {
 
 body[data-theme="otaku"] .toolbar,
 body[data-theme="otaku"] .status-grid,
-body[data-theme="otaku"] .messages-section {
+body[data-theme="otaku"] .messages-section,
+body[data-theme="otaku"] .dashboard-tabs,
+body[data-theme="otaku"] .dashboard-panel,
+body[data-theme="otaku"] .dashboard-kpis,
+body[data-theme="otaku"] .dashboard-warnings,
+body[data-theme="otaku"] .side-nav {
     background: rgba(36, 23, 47, 0.84);
     backdrop-filter: blur(16px);
     box-shadow: 0 18px 46px rgba(0, 0, 0, 0.3), 0 0 32px rgba(255, 79, 163, 0.08);
@@ -260,6 +313,10 @@ body[data-theme="otaku"] .messages-section {
     grid-template-columns: minmax(240px, 1fr) repeat(2, minmax(170px, auto));
     gap: 12px;
     padding: 14px;
+}
+
+.dashboard-toolbar {
+    grid-template-columns: repeat(3, minmax(170px, 1fr));
 }
 
 .search-field,
@@ -323,6 +380,12 @@ body[data-theme="otaku"] .messages-section {
     overflow: hidden;
 }
 
+.dashboard-kpis {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(150px, 1fr));
+    overflow: hidden;
+}
+
 .metric {
     position: relative;
     display: grid;
@@ -379,6 +442,99 @@ body[data-theme="otaku"] .metric::before {
 
 .messages-section {
     padding: 16px;
+}
+
+.dashboard-tabs {
+    display: flex;
+    gap: 8px;
+    padding: 10px;
+}
+
+.tab-button {
+    min-height: 38px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--muted);
+    padding: 0 14px;
+    font-weight: 800;
+}
+
+.tab-button.active,
+.tab-button:hover {
+    border-color: var(--accent);
+    color: var(--text);
+    background: var(--accent-soft);
+}
+
+.dashboard-panel {
+    padding: 16px;
+}
+
+.dashboard-warnings {
+    display: grid;
+    gap: 8px;
+    padding: 12px 14px;
+    color: #ffd4a3;
+    font-weight: 700;
+}
+
+.dashboard-warnings[hidden],
+.dashboard-panel[hidden] {
+    display: none;
+}
+
+.dashboard-columns {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 14px;
+}
+
+.rank-list {
+    min-width: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    padding: 12px;
+}
+
+.rank-list h3 {
+    margin-bottom: 10px;
+    color: var(--text);
+    font-size: 0.95rem;
+}
+
+.rank-list ol {
+    display: grid;
+    gap: 8px;
+    list-style: none;
+}
+
+.rank-list li {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 8px;
+    align-items: center;
+}
+
+.rank-list li span {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+    font-weight: 900;
+    font-size: 0.78rem;
+}
+
+.rank-list li strong {
+    min-width: 0;
+    color: var(--text);
+    font-size: 0.9rem;
+    overflow-wrap: anywhere;
 }
 
 .section-header {
@@ -584,8 +740,20 @@ body[data-theme="otaku"] .avatar-fallback {
     }
 
     .toolbar,
-    .status-grid {
+    .status-grid,
+    .dashboard-toolbar,
+    .dashboard-kpis,
+    .dashboard-columns {
         grid-template-columns: 1fr;
+    }
+
+    .app-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .side-nav {
+        position: static;
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .metric {

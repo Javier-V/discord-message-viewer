@@ -7,6 +7,7 @@ A web-based viewer for Discord messages with search and sorting capabilities.
 - View messages from Discord channels
 - Search by author name or message content
 - Sort by date (newest first), author/name, or content
+- Dashboard activity metrics for configured text and voice channels
 - Real-time updates via WebSocket
 - Responsive web interface
 
@@ -61,6 +62,15 @@ DISCORD_GUILD_ID=123456789012345678
 # Historical messages to load on startup/refresh (optional)
 MAX_HISTORY_MESSAGES=1000
 
+# Dashboard text channels, separated by commas (optional)
+DASHBOARD_TEXT_CHANNEL_IDS=123456789012345678,234567890123456789
+
+# Dashboard voice channels, separated by commas (optional)
+DASHBOARD_VOICE_CHANNEL_IDS=345678901234567890,456789012345678901
+
+# Historical messages per dashboard text channel (optional)
+DASHBOARD_MAX_HISTORY_MESSAGES_PER_CHANNEL=1000
+
 # Server Port 
 PORT=3000
 ```
@@ -82,12 +92,17 @@ To get these values:
 - Search bar: Filter messages by author name or content
 - Sort dropdown: Change sorting between date, author/name, and content
 - Refresh button: Reload messages from Discord
+- Dashboard: Open the Dashboard section to review text and voice activity for configured channels
 
 ## API Endpoints
 
 - `GET /api/messages` - Get filtered messages (supports search, sortBy, and limit)
 - `POST /api/refresh` - Reload messages from Discord
 - `GET /api/status` - Get Discord connection and channel status
+- `GET /api/dashboard/summary` - Get dashboard summary metrics
+- `GET /api/dashboard/text` - Get text-channel activity metrics
+- `GET /api/dashboard/voice` - Get voice-channel activity metrics
+- `GET /api/dashboard/channels` - Get configured dashboard channels
 
 ## Files
 

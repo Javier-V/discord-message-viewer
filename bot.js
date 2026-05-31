@@ -1,6 +1,7 @@
 const { Client, GatewayIntentBits, Collection } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
+require('dotenv').config(); // Load environment variables from .env file
 
 // Create a new client instance
 const client = new Client({
@@ -140,6 +141,10 @@ client.on('messageCreate', async (message) => {
 });
 
 // Login to Discord with your app's token
+if (!process.env.DISCORD_TOKEN) {
+  console.error('DISCORD_TOKEN environment variable is required!');
+  process.exit(1);
+}
 client.login(process.env.DISCORD_TOKEN);
 
 // Export client for use in other modules
