@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Message Viewer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Discord Message Viewer</h1>
+            <div class="controls">
+                <input type="text" id="searchInput" placeholder="Search by author or content...">
+                <select id="sortBy">
+                    <option value="date">Sort by Date (Newest First)</option>
+                    <option value="author">Sort by Author</option>
+                </select>
+                <button id="refreshBtn">Refresh Messages</button>
+            </div>
+        </header>
+        
+        <div id="messagesContainer">
+            <div class="loading">Loading messages...</div>
+        </div>
+    </div>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

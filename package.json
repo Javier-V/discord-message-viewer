@@ -1,0 +1,23 @@
+{
+  "name": "discord-message-viewer",
+  "version": "1.0.0",
+  "description": "A Discord message viewer with web interface",
+  "main": "web-server.js",
+  "scripts": {
+    "start": "node web-server.js",
+    "dev": "nodemon web-server.js"
+  },
+  "keywords": ["discord", "message", "viewer", "web"],
+  "author": "Discord Message Viewer",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^14.15.3",
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  },
+  "type": "commonjs"
+}
