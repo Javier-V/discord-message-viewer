@@ -6,16 +6,15 @@ A web-based viewer for Discord messages with search and sorting capabilities.
 
 - View messages from Discord channels
 - Search by author name or message content
-- Sort by date (newest first) or author
+- Sort by date (newest first), author/name, or content
 - Real-time updates via WebSocket
-- Historical message retrieval (with proper permissions)
 - Responsive web interface
 
 ## Requirements
 
 - Node.js 16 or higher
-- A Discord bot with MESSAGE_CONTENT and GUILD_MESSAGES intents enabled
-- Discord server with the bot added and proper permissions
+- A Discord bot with proper permissions
+- Discord server with the bot added
 
 ## Setup Instructions
 
@@ -27,58 +26,76 @@ A web-based viewer for Discord messages with search and sorting capabilities.
 
 3. Create a Discord bot at https://discord.com/developers/applications
 
-4. Enable the following intents in your bot settings:
-   - GUILD_MESSAGES
-   - MESSAGE_CONTENT
+4. Configure the bot with required permissions:
+   - Enable "MESSAGE_CONTENT" intent in the bot settings
+   - Add the bot to your Discord server
+   - Ensure bot has "View Channel" and "Read Message History" permissions
 
-5. Add your bot to your Discord server
-
-6. Set your bot token as an environment variable:
+5. Set up your environment:
    ```
-   export DISCORD_TOKEN="your-bot-token-here"
+   cp .env.example .env
+   # Edit .env to add your DISCORD_TOKEN and other settings
    ```
 
-7. Start the server:
+6. Start the server:
    ```
    npm start
    ```
 
-8. Visit `http://localhost:3000` to view messages
+7. Visit `http://localhost:3000` to view messages
+
+## Environment Variables
+
+The application requires the following environment variables to be set in `.env`:
+
+```
+# Discord Bot Token (required)
+DISCORD_TOKEN=your_bot_token_here
+
+# Discord channel to read (required)
+DISCORD_CHANNEL_ID=123456789012345678
+
+# Discord guild/server ID (optional)
+DISCORD_GUILD_ID=123456789012345678
+
+# Historical messages to load on startup/refresh (optional)
+MAX_HISTORY_MESSAGES=1000
+
+# Server Port 
+PORT=3000
+```
+
+To get these values:
+1. **DISCORD_TOKEN**: Copy from Discord Developer Portal -> Your App -> Bot -> Token
+2. **DISCORD_CHANNEL_ID**: Enable Developer Mode in Discord, right-click the channel, and copy ID
+3. **DISCORD_GUILD_ID**: Right-click the server and copy ID if you want to restrict the bot to one guild
+
+## Important Notes
+
+- `MESSAGE_CONTENT` intent allows access to message content, but does NOT require application verification
+- Historical messages must be fetched using the Discord REST API with "Read Message History" permission
+- The implementation properly handles pagination to fetch messages older than 100 messages
+- No application verification required for bots in fewer than 100 servers
 
 ## Usage
 
 - Search bar: Filter messages by author name or content
-- Sort dropdown: Change sorting between date and author
+- Sort dropdown: Change sorting between date, author/name, and content
 - Refresh button: Reload messages from Discord
-- Historical messages are automatically fetched when viewing specific channels
 
 ## API Endpoints
 
-- `GET /api/messages` - Get filtered messages (supports search, sort, and channel parameters)
-- `GET /api/messages?channelId={channel_id}&limit=50` - Get messages from a specific channel with pagination
+- `GET /api/messages` - Get filtered messages (supports search, sortBy, and limit)
+- `POST /api/refresh` - Reload messages from Discord
+- `GET /api/status` - Get Discord connection and channel status
 
 ## Files
 
 - `web-server.js` - Main web server with Express and Socket.IO
+- `bot.js` - Discord bot functionality
 - `public/` - Web interface files (HTML, CSS, JavaScript)
-
-## Permissions Required
-
-For historical message access, your bot needs the following permissions in the server:
-- VIEW_CHANNEL
-- READ_MESSAGE_HISTORY
-
-## How It Works
-
-1. **Live Messages**: The bot receives real-time messages as they are sent (via GUILD_MESSAGES intent)
-2. **Historical Messages**: When viewing a specific channel, the application fetches recent messages from that channel via Discord's API
-3. **Search & Sort**: All messages (live and historical) can be searched and sorted
-
-## Important Notes
-
-- The GUILD_MESSAGE_HISTORY intent is **not available** in Test Mode for applications with <100 servers
-- To access historical messages, your application must be verified with Discord (100+ servers)
-- The current implementation works for future messages and can fetch recent messages from channels
+- `.env.example` - Environment variable template
+- `.gitignore` - Excludes .env files
 
 ## License
 

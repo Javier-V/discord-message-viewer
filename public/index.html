@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,22 +7,89 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Discord Message Viewer</h1>
-            <div class="controls">
-                <input type="text" id="searchInput" placeholder="Search by author or content...">
-                <select id="sortBy">
-                    <option value="date">Sort by Date (Newest First)</option>
-                    <option value="author">Sort by Author</option>
-                </select>
-                <button id="refreshBtn">Refresh Messages</button>
+    <div class="app-shell">
+        <header class="topbar">
+            <div class="brand">
+                <div class="brand-mark">
+                    <span class="brand-initials">DM</span>
+                    <img class="brand-waifu-icon" src="assets/otaku-waifu-icon.png" alt="">
+                </div>
+                <div>
+                    <p class="eyebrow">Discord archive</p>
+                    <h1>Message Viewer</h1>
+                </div>
+            </div>
+
+            <div class="topbar-actions">
+                <div class="otaku-mascot" aria-hidden="true">
+                    <img src="assets/otaku-waifu-icon.png" alt="">
+                    <div>
+                        <span>Waifu console</span>
+                        <strong>Otaku mode online</strong>
+                    </div>
+                </div>
+                <button id="themeToggle" class="theme-toggle" type="button">Modo otaku</button>
+                <button id="refreshBtn" class="primary-button" type="button">Actualizar</button>
             </div>
         </header>
-        
-        <div id="messagesContainer">
-            <div class="loading">Loading messages...</div>
-        </div>
+
+        <main class="workspace">
+            <section class="toolbar" aria-label="Controles de mensajes">
+                <div class="search-field">
+                    <span class="search-icon">/</span>
+                    <input type="text" id="searchInput" placeholder="Buscar autor o contenido">
+                </div>
+
+                <label class="select-field">
+                    <span>Orden</span>
+                    <select id="sortBy">
+                        <option value="date">Fecha reciente</option>
+                        <option value="author">Nombre</option>
+                        <option value="content">Contenido</option>
+                    </select>
+                </label>
+
+                <label class="select-field">
+                    <span>Resultados</span>
+                    <select id="pageSize">
+                        <option value="100" selected>100</option>
+                        <option value="200">200</option>
+                        <option value="500">500</option>
+                        <option value="all">Todos</option>
+                    </select>
+                </label>
+            </section>
+
+            <section class="status-grid" aria-label="Estado">
+                <div class="metric">
+                    <span class="metric-label">Canal</span>
+                    <strong id="channelName">Conectando</strong>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Mensajes</span>
+                    <strong id="messageCount">0</strong>
+                </div>
+                <div class="metric wide">
+                    <span class="metric-label">Estado</span>
+                    <strong id="statusBar">Conectando a Discord...</strong>
+                </div>
+            </section>
+
+            <section class="messages-section" aria-label="Mensajes">
+                <div class="section-header">
+                    <h2>Mensajes</h2>
+                    <div class="pagination-controls" aria-label="Paginacion">
+                        <button id="previousPage" class="page-button" type="button">Anterior</button>
+                        <span id="visibleCount">0 visibles</span>
+                        <button id="nextPage" class="page-button" type="button">Siguiente</button>
+                    </div>
+                </div>
+
+                <div id="messagesContainer" class="messages-grid">
+                    <div class="loading">Cargando mensajes...</div>
+                </div>
+            </section>
+        </main>
     </div>
     
     <script src="/socket.io/socket.io.js"></script>
