@@ -47,7 +47,7 @@ body[data-theme="otaku"] {
     background:
         linear-gradient(90deg, rgba(23, 15, 31, 0.88), rgba(23, 15, 31, 0.52), rgba(23, 15, 31, 0.9)),
         linear-gradient(180deg, rgba(255, 79, 163, 0.16), rgba(0, 214, 214, 0.1)),
-        url("assets/otaku-wallpaper.png"),
+        var(--otaku-wallpaper-image, url("assets/otaku-wallpaper.png")),
         var(--bg);
     background-attachment: fixed;
     background-position: center;

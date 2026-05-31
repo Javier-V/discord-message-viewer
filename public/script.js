@@ -1,6 +1,8 @@
 const socket = io();
 const WAIFU_AVATAR_SRC = 'assets/otaku-waifu-icon.png';
-const ORIGINAL_AVATAR_AUTHORS = new Set(['javiere']);
+const DEFAULT_OTAKU_WALLPAPER_SRC = 'assets/otaku-wallpaper.png';
+const OTAKU_BACKGROUNDS_ENDPOINT = '/api/otaku/backgrounds';
+const ORIGINAL_AVATAR_AUTHORS = new Set(['harryelhacha', 'javiere']);
 let messages = [];
 let currentSearch = '';
 let currentSort = 'date';
@@ -53,6 +55,7 @@ let voiceChart;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
+    setRandomOtakuBackground();
     applySavedTheme();
     handleRoute();
 
@@ -496,6 +499,26 @@ function updateStatus(status) {
 function applySavedTheme() {
     const savedTheme = localStorage.getItem('messageViewerTheme') || 'normal';
     setTheme(savedTheme === 'otaku' ? 'otaku' : 'normal');
+}
+
+function setRandomOtakuBackground() {
+    fetch(OTAKU_BACKGROUNDS_ENDPOINT)
+        .then(response => response.ok ? response.json() : Promise.reject(new Error('No se pudieron cargar los fondos otaku')))
+        .then(data => {
+            const availableImages = Array.isArray(data.images)
+                ? data.images.filter(image => image && image.url)
+                : [];
+            const selectedImage = availableImages.length > 0
+                ? availableImages[Math.floor(Math.random() * availableImages.length)].url
+                : DEFAULT_OTAKU_WALLPAPER_SRC;
+
+            setOtakuWallpaper(selectedImage);
+        })
+        .catch(() => setOtakuWallpaper(DEFAULT_OTAKU_WALLPAPER_SRC));
+}
+
+function setOtakuWallpaper(imageUrl) {
+    document.body.style.setProperty('--otaku-wallpaper-image', `url("${String(imageUrl).replace(/["\\]/g, '\\$&')}")`);
 }
 
 function toggleTheme() {

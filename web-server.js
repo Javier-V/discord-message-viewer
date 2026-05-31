@@ -32,6 +32,8 @@ const ALLOWED_PAGE_SIZES = new Set([100, 200, 500]);
 const DASHBOARD_TEXT_CHANNEL_IDS = parseDashboardIdList('DASHBOARD_TEXT_CHANNEL_IDS');
 const DASHBOARD_VOICE_CHANNEL_IDS = parseDashboardIdList('DASHBOARD_VOICE_CHANNEL_IDS');
 const DASHBOARD_MAX_HISTORY_MESSAGES_PER_CHANNEL = Number(process.env.DASHBOARD_MAX_HISTORY_MESSAGES_PER_CHANNEL || 1000);
+const IMAGES_DIR = path.join(__dirname, 'images');
+const IMAGE_EXTENSIONS = new Set(['.gif', '.jpeg', '.jpg', '.png', '.webp']);
 
 let messagesData = [];
 let dashboardTextMessages = [];
@@ -59,6 +61,7 @@ const discordClient = new Client({
 });
 const activityStore = new ActivityStore({ dataDir: path.join(__dirname, 'data') });
 
+app.use('/images', express.static(IMAGES_DIR));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
@@ -104,6 +107,16 @@ function readEnvBlockValue(key) {
   }
 
   return values.join(' ');
+}
+
+function listImageFiles(directory) {
+  if (!fs.existsSync(directory)) return [];
+
+  return fs.readdirSync(directory, { withFileTypes: true })
+    .filter((entry) => entry.isFile())
+    .map((entry) => entry.name)
+    .filter((fileName) => IMAGE_EXTENSIONS.has(path.extname(fileName).toLowerCase()))
+    .sort((a, b) => a.localeCompare(b));
 }
 
 function isReadableMessageChannel(channel) {
@@ -809,6 +822,15 @@ app.get('/', (_req, res) => {
 
 app.get('/api/status', (_req, res) => {
   res.json(discordStatus);
+});
+
+app.get('/api/otaku/backgrounds', (_req, res) => {
+  const images = listImageFiles(IMAGES_DIR).map((fileName) => ({
+    fileName,
+    url: `/images/${encodeURIComponent(fileName)}`,
+  }));
+
+  res.json({ images });
 });
 
 app.get('/api/dashboard/channels', (_req, res) => {
